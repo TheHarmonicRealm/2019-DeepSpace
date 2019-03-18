@@ -193,6 +193,7 @@ public class Constants
 
     // Cargo Chute
     public static final int kRampMotorId = 5;
+    public static final int kRampMotorSlaveId = -1; //This is not true; we must find the ID
     public static final int kRampSolenoidId = 3;
     public static final int kRampSensorId = 0;
     public static final double kRampSpeed = 1.0;
