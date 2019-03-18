@@ -45,6 +45,7 @@ public class CargoChute extends Subsystem
     private SystemState mSystemState = SystemState.LOWERING;
 
     private TalonSRX mRampMotor = null;
+    private VictorSPX mRampMotorSlave = null;
     private Solenoid mRampSolenoid = null;
     private A21IRSensor mRampSensor = null;
 
@@ -62,6 +63,9 @@ public class CargoChute extends Subsystem
                 throw new RuntimeException("CargoChute PCM isn't on the CAN bus!");
 
             mRampMotor = TalonSRXFactory.createDefaultTalon(Constants.kRampMotorId);
+            mRampMotorSlave = new VictorSPX(Constants.kRampMotorSlaveId, Constants.kRampMotorId); //TODO
+            mRampMotorSlave.set(ControlMode.Follower); //TODO
+            
             mRampSolenoid = new Solenoid(Constants.kCargoHatchArmPCMId, Constants.kRampSolenoidId);
             mRampSensor = new A21IRSensor(Constants.kRampSensorId);
             success = true;
@@ -138,7 +142,6 @@ public class CargoChute extends Subsystem
                             mRampSolenoid.set(Constants.kRampSolenoidExtend);
                             mCargoTimer.start();
                             // Waits so that the solenoid can get up
-                            
                         }
                         if (mCargoTimer.hasPeriodPassed(Constants.kExtendTime) && !mIsShootingBay)
                         {
